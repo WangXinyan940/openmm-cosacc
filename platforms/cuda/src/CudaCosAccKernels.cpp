@@ -39,7 +39,7 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
 
     Vec3 boxVectors[3];
     system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
-    define["ONELZ"] = cu.doubleToString(2.0*3.141592654/boxVectors[2][2]);
+    defines["2PIONELZ"] = cu.doubleToString(2.0*3.141592654/boxVectors[2][2]);
     
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");
