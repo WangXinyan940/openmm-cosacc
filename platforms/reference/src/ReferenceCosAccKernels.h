@@ -35,7 +35,7 @@ public:
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
     double accelerate;
-    vector<double> massvec;
+    std::vector<double> massvec;
 };
 
 } // namespace CosAccPlugin
