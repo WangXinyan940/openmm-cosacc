@@ -1,32 +1,30 @@
-#ifndef REFERENCE_DEEPMD_KERNELS_H_
-#define REFERENCE_DEEPMD_KERNELS_H_
+#ifndef REFERENCE_COSACC_KERNELS_H_
+#define REFERENCE_COSACC_KERNELS_H_
 
-#include "deepmd/NNPInter.h"
 #include "deepmd/common.h"
-#include "DeepMDKernels.h"
+#include "CosAccKernels.h"
 #include "openmm/Platform.h"
-#include "openmm/reference/ReferenceNeighborList.h"
 #include <vector>
 #include <set>
 #include <iostream>
 
-namespace DeepMDPlugin {
+namespace CosAccPlugin {
 
 /**
- * This kernel is invoked by DeepMDForce to calculate the forces acting on the system and the energy of the system.
+ * This kernel is invoked by CosAccForce to calculate the forces acting on the system and the energy of the system.
  */
-class ReferenceCalcDeepMDForceKernel : public CalcDeepMDForceKernel {
+class ReferenceCalcCosAccForceKernel : public CalcCosAccForceKernel {
 public:
-    ReferenceCalcDeepMDForceKernel(std::string name, const OpenMM::Platform& platform) : CalcDeepMDForceKernel(name, platform) {
+    ReferenceCalcCosAccForceKernel(std::string name, const OpenMM::Platform& platform) : CalcCosAccForceKernel(name, platform) {
     }
-    ~ReferenceCalcDeepMDForceKernel();
+    ~ReferenceCalcCosAccForceKernel();
     /**
      * Initialize the kernel.
      * 
      * @param system         the System this kernel will be applied to
-     * @param force          the DeepMDForce this kernel will be used for
+     * @param force          the CosAccForce this kernel will be used for
      */
-    void initialize(const OpenMM::System& system, const DeepMDForce& force);
+    void initialize(const OpenMM::System& system, const CosAccForce& force);
     /**
      * Execute the kernel to calculate the forces and/or energy.
      *
@@ -37,17 +35,10 @@ public:
      */
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
-    NNPInter deepmodel;
-    double rcut;
-    std::vector<int> mask;
-    std::vector<int> types;
-    bool doubleModel;
-    std::vector<float> positions, boxVectors;
-    bool usePeriodic;
-    OpenMM::NeighborList neighborList;
-    vector<set<int>> ex;
+    double accelerate;
+    vector<double> massvec;
 };
 
-} // namespace DeepMDPlugin
+} // namespace CosAccPlugin
 
-#endif /*REFERENCE_DEEPMD_KERNELS_H_*/
+#endif /*REFERENCE_COSACC_KERNELS_H_*/

@@ -2,30 +2,30 @@
 #define CUDA_DEEPMD_KERNELS_H_
 
 #include "deepmd/NNPInter.h"
-#include "DeepMDKernels.h"
+#include "CosAccKernels.h"
 #include "openmm/cuda/CudaContext.h"
 #include "openmm/cuda/CudaArray.h"
 #include <vector>
 #include <string>
 
-namespace DeepMDPlugin {
+namespace CosAccPlugin {
 
 /**
- * This kernel is invoked by DeepMDForce to calculate the forces acting on the system and the energy of the system.
+ * This kernel is invoked by CosAccForce to calculate the forces acting on the system and the energy of the system.
  */
-class CudaCalcDeepMDForceKernel : public CalcDeepMDForceKernel {
+class CudaCalcCosAccForceKernel : public CalcCosAccForceKernel {
 public:
-    CudaCalcDeepMDForceKernel(std::string name, const OpenMM::Platform& platform, OpenMM::CudaContext& cu) :
-            CalcDeepMDForceKernel(name, platform), hasInitializedKernel(false), cu(cu) {
+    CudaCalcCosAccForceKernel(std::string name, const OpenMM::Platform& platform, OpenMM::CudaContext& cu) :
+            CalcCosAccForceKernel(name, platform), hasInitializedKernel(false), cu(cu) {
     }
-    ~CudaCalcDeepMDForceKernel();
+    ~CudaCalcCosAccForceKernel();
     /**
      * Initialize the kernel.
      * 
      * @param system         the System this kernel will be applied to
-     * @param force          the DeepMDForce this kernel will be used for
+     * @param force          the CosAccForce this kernel will be used for
      */
-    void initialize(const OpenMM::System& system, const DeepMDForce& force);
+    void initialize(const OpenMM::System& system, const CosAccForce& force);
     /**
      * Execute the kernel to calculate the forces and/or energy.
      *
@@ -46,6 +46,6 @@ private:
     CUfunction addForcesKernel;
 };
 
-} // namespace DeepMDPlugin
+} // namespace CosAccPlugin
 
 #endif /*CUDA_DEEPMD_KERNELS_H_*/

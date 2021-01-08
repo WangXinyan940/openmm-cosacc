@@ -1,11 +1,11 @@
-#include "ReferenceDeepMDKernelFactory.h"
-#include "ReferenceDeepMDKernels.h"
+#include "ReferenceCosAccKernelFactory.h"
+#include "ReferenceCosAccKernels.h"
 #include "openmm/reference/ReferencePlatform.h"
 #include "openmm/internal/ContextImpl.h"
 #include "openmm/OpenMMException.h"
 #include <vector>
 
-using namespace DeepMDPlugin;
+using namespace CosAccPlugin;
 using namespace OpenMM;
 using namespace std;
 
@@ -18,19 +18,19 @@ extern "C" OPENMM_EXPORT void registerKernelFactories() {
     for (int i = 0; i < Platform::getNumPlatforms(); i++) {
         Platform& platform = Platform::getPlatform(i);
         if (dynamic_cast<ReferencePlatform*>(&platform) != NULL) {
-            ReferenceDeepMDKernelFactory* factory = new ReferenceDeepMDKernelFactory();
-            platform.registerKernelFactory(CalcDeepMDForceKernel::Name(), factory);
+            ReferenceCosAccKernelFactory* factory = new ReferenceCosAccKernelFactory();
+            platform.registerKernelFactory(CalcCosAccForceKernel::Name(), factory);
         }
     }
 }
 
-extern "C" OPENMM_EXPORT void registerDeepMDReferenceKernelFactories() {
+extern "C" OPENMM_EXPORT void registerCosAccReferenceKernelFactories() {
     registerKernelFactories();
 }
 
-KernelImpl* ReferenceDeepMDKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
+KernelImpl* ReferenceCosAccKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
     ReferencePlatform::PlatformData& data = *static_cast<ReferencePlatform::PlatformData*>(context.getPlatformData());
-    if (name == CalcDeepMDForceKernel::Name())
-        return new ReferenceCalcDeepMDForceKernel(name, platform);
+    if (name == CalcCosAccForceKernel::Name())
+        return new ReferenceCalcCosAccForceKernel(name, platform);
     throw OpenMMException((std::string("Tried to create kernel with illegal kernel name '")+name+"'").c_str());
 }

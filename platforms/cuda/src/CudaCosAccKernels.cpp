@@ -1,10 +1,10 @@
-#include "CudaDeepMDKernels.h"
-#include "CudaDeepMDKernelSources.h"
+#include "CudaCosAccKernels.h"
+#include "CudaCosAccKernelSources.h"
 #include "openmm/internal/ContextImpl.h"
 #include <map>
 #include <iostream>
 
-using namespace DeepMDPlugin;
+using namespace CosAccPlugin;
 using namespace OpenMM;
 using namespace std;
 
@@ -14,10 +14,10 @@ typedef double VALUETYPE2;
 typedef float VALUETYPE2;
 #endif
 
-CudaCalcDeepMDForceKernel::~CudaCalcDeepMDForceKernel() {
+CudaCalcCosAccForceKernel::~CudaCalcCosAccForceKernel() {
 }
 
-void CudaCalcDeepMDForceKernel::initialize(const System& system, const DeepMDForce& force) {
+void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccForce& force) {
     
 
     int numParticles = system.getNumParticles();
@@ -42,11 +42,11 @@ void CudaCalcDeepMDForceKernel::initialize(const System& system, const DeepMDFor
     #endif
     cu.setAsCurrent();
     networkForces.initialize(cu, 3*numParticles, networkForcesSize, "networkForces");
-    CUmodule module = cu.createModule(CudaDeepMDKernelSources::deepMDForce, defines);
+    CUmodule module = cu.createModule(CudaCosAccKernelSources::deepMDForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");
 }
 
-double CudaCalcDeepMDForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
+double CudaCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
     
     vector<Vec3> pos;
     context.getPositions(pos);

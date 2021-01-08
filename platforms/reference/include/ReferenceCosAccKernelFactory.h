@@ -1,12 +1,12 @@
-#ifndef OPENMM_REFERENCE_DEEPMD_KERNEL_FACTORY_H_
-#define OPENMM_REFERENCE_DEEPMD_KERNEL_FACTORY_H_
+#ifndef OPENMM_REFERENCE_COSACC_KERNEL_FACTORY_H_
+#define OPENMM_REFERENCE_COSACC_KERNEL_FACTORY_H_
 
 #include "openmm/KernelFactory.h"
 
 namespace OpenMM {
 
 /**
- * This KernelFactory creates kernels for the reference implementation of the DeepMD plugin.
+ * This KernelFactory creates kernels for the reference implementation of the CosAcc plugin.
  */
 
 class ReferenceDeepMDKernelFactory : public KernelFactory {
@@ -16,4 +16,4 @@ public:
 
 } // namespace OpenMM
 
-#endif /*OPENMM_REFERENCE_DEEPMD_KERNEL_FACTORY_H_*/
+#endif /*OPENMM_REFERENCE_COSACC_KERNEL_FACTORY_H_*/

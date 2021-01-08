@@ -1,4 +1,4 @@
-#include "CudaDeepMDKernelSources.h"
+#include "CudaCosAccKernelSources.h"
 
-using namespace DeepMDPlugin;
+using namespace CosAccPlugin;
 using namespace std;
