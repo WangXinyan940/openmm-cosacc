@@ -35,6 +35,7 @@ public:
      */
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
+    bool hasInitializedKernel;
     double accelerate;
     std::vector<double> massvec;
     OpenMM::CudaArray massvec_cu;
