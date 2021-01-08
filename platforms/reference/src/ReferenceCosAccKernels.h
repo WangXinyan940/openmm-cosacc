@@ -1,7 +1,6 @@
 #ifndef REFERENCE_COSACC_KERNELS_H_
 #define REFERENCE_COSACC_KERNELS_H_
 
-#include "deepmd/common.h"
 #include "CosAccKernels.h"
 #include "openmm/Platform.h"
 #include <vector>
