@@ -1,7 +1,6 @@
-#ifndef CUDA_DEEPMD_KERNELS_H_
-#define CUDA_DEEPMD_KERNELS_H_
+#ifndef CUDA_COSACC_KERNELS_H_
+#define CUDA_COSACC_KERNELS_H_
 
-#include "deepmd/NNPInter.h"
 #include "CosAccKernels.h"
 #include "openmm/cuda/CudaContext.h"
 #include "openmm/cuda/CudaArray.h"
@@ -36,16 +35,13 @@ public:
      */
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
-    NNPInter deepmodel;
-    std::vector<int> mask;
-    std::vector<int> types;
-    bool hasInitializedKernel;
+    double accelerate;
+    std::vector<double> massvec;
+    OpenMM::CudaArray massvec_cu;
     OpenMM::CudaContext& cu;
-    bool usePeriodic;
-    OpenMM::CudaArray networkForces;
     CUfunction addForcesKernel;
 };
 
 } // namespace CosAccPlugin
 
-#endif /*CUDA_DEEPMD_KERNELS_H_*/
+#endif /*CUDA_COSACC_KERNELS_H_*/

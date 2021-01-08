@@ -8,95 +8,52 @@ using namespace CosAccPlugin;
 using namespace OpenMM;
 using namespace std;
 
-#ifdef HIGH_PREC
-typedef double VALUETYPE2;
-#else
-typedef float VALUETYPE2;
-#endif
-
 CudaCalcCosAccForceKernel::~CudaCalcCosAccForceKernel() {
 }
 
 void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccForce& force) {
-    
+    cu.setAsCurrent();
 
     int numParticles = system.getNumParticles();
-    // hold model
-    NNPInter model(force.getFile());
-    deepmodel = model;
+    int elementSize = (cu.getUseDoublePrecision() ? sizeof(double) : sizeof(float));
 
-    // create input tensors
-    mask = force.getMask();
-    types = force.getType();
+    // create input tensor
+    for(int i=0;i<numParticles;i++){
+        massvec.push_back(force.massvec[i]);
+    }
+
+    massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
+    massvec_cu.upload(massvec);
+
+    accelerate = force.accelerate;
 
     // Inititalize CUDA objects.
     map<string, string> defines;
-    #ifdef HIGH_PREC
-        cout << "High Prec" << endl;
+    if (cu.getUseDoublePrecision()){
         defines["FORCES_TYPE"] = "double";
-        int networkForcesSize = sizeof(double);
-    #else
-        cout << "Low Prec" << endl;
+    } else {
         defines["FORCES_TYPE"] = "float";
-        int networkForcesSize = sizeof(float);
-    #endif
-    cu.setAsCurrent();
-    networkForces.initialize(cu, 3*numParticles, networkForcesSize, "networkForces");
-    CUmodule module = cu.createModule(CudaCosAccKernelSources::deepMDForce, defines);
+    }
+
+    Vec3 boxVectors[3];
+    system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
+    define["ONELZ"] = cu.doubleToString(2.0*3.141592654/boxVectors[2][2]);
+    
+    CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");
 }
 
 double CudaCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
     
-    vector<Vec3> pos;
-    context.getPositions(pos);
     int numParticles = cu.getNumAtoms();
-    
-    vector<VALUETYPE2> positions(3*mask.size(),0.0);
-    for (int i = 0; i < mask.size(); i++) {
-        positions[3*i] = pos[mask[i]][0]*10;
-        positions[3*i+1] = pos[mask[i]][1]*10;
-        positions[3*i+2] = pos[mask[i]][2]*10;
-    }
-    // cout << "Position loaded" << endl;
-
-    vector<VALUETYPE2> boxVectors(9,0);
-    if (usePeriodic) {
-        Vec3 box[3];
-        cu.getPeriodicBoxVectors(box[0], box[1], box[2]);
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                boxVectors[i*3+j] = box[i][j]*10;
-    } else {
-        boxVectors[0] = 9999.9;
-        boxVectors[4] = 9999.9;
-        boxVectors[8] = 9999.9;
-    }
-    // cout << "Box loaded" << endl;
-    
-    // run model
-    vector<VALUETYPE2> force_tmp(positions.size(), 0);
-    vector<VALUETYPE2> virial(9,0);
-    double ener = 0;
-    deepmodel.compute(ener, force_tmp, virial, positions, types, boxVectors);
-    // cout << "Got result" << endl;
 
     double energy = 0.0;
     if (includeEnergy) {
-        energy = ener*96;
+        energy += 1.0;
     }
     if (includeForces) {
-        vector<VALUETYPE> data(3*pos.size(),0);
-        for(int i=0;i<mask.size();i++){
-            int p = mask[i];
-            for(int j=0;j<3;j++){
-                data[3*p+j] = force_tmp[3*i+j];
-            }
-        }
-        networkForces.upload(data);
         int paddedNumAtoms = cu.getPaddedNumAtoms();
-
-        void* args[] = {&networkForces.getDevicePointer(), &cu.getForce().getDevicePointer(), &cu.getAtomIndexArray().getDevicePointer(), &numParticles, &paddedNumAtoms};
+        void* args[] = {&massvec_cu.getDevicePointer(), &cu.getPosq().getDevicePointer(), &cu.getForce().getDevicePointer(), &cu.getAtomIndexArray().getDevicePointer(), &accelerate, &numParticles, &paddedNumAtoms};
         cu.executeKernel(addForcesKernel, args, numParticles);
     }
     return energy;

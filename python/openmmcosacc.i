@@ -1,5 +1,5 @@
   
-%module openmmdeepmd
+%module openmmcosacc
 
 %import(module="simtk.openmm") "swig/OpenMMSwigHeaders.i"
 %include "swig/typemaps.i"
@@ -7,7 +7,7 @@
 %include <std_vector.i>
 
 %{
-#include "DeepMDForce.h"
+#include "CosAccForce.h"
 #include "OpenMM.h"
 #include "OpenMMAmoeba.h"
 #include "OpenMMDrude.h"
@@ -27,9 +27,9 @@
     }
 }
 
-%feature("shadow") DeepMDPlugin::DeepMDForce::DeepMDForce %{
+%feature("shadow") CosAccPlugin::CosAccForce::CosAccForce %{
     def __init__(self, *args):
-        this = _openmmdeepmd.new_DeepMDForce(args[0])
+        this = _openmmcosacc.new_CosAccForce(args[0])
         try:
             self.this.append(this)
         except Exception:
@@ -40,29 +40,27 @@ namespace std {
   %template(IntVector) vector<int>;
 }
 
-namespace DeepMDPlugin {
+namespace CosAccPlugin {
 
-class DeepMDForce : public OpenMM::Force {
+class CosAccPlugin : public OpenMM::Force {
 public:
-    DeepMDForce(std::string file);
-    const std::string& getFile() const;
-    void setMask(std::vector<int> mask);
-    const std::vector<int>& getMask() const;
-    void setType(std::vector<int> type);
-    const std::vector<int>& getType() const;
-    void setUsesPeriodicBoundaryConditions(bool periodic);
-    bool usesPeriodicBoundaryConditions() const;
+    CosAccForce(double acc);
+    void addParticle(double mass);
+    void getParticleParameters(int index, double& mass) const;
+    void setParticleParameters(int index, double mass);
+    double getAcc() const;
+    void setAcc(double acc);
 
     /*
      * Add methods for casting a Force to a DeepMDForce.
     */
     %extend {
-        static DeepMDPlugin::DeepMDForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<DeepMDPlugin::DeepMDForce&>(force);
+        static CosAccPlugin::CosAccForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<CosAccPlugin::CosAccForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<DeepMDPlugin::DeepMDForce*>(&force) != NULL);
+            return (dynamic_cast<CosAccPlugin::CosAccForce*>(&force) != NULL);
         }
     }
 };

@@ -1,5 +1,5 @@
-set(WRAP_FILE DeepMDPluginWrapper.cpp)
-set(MODULE_NAME openmmdeepmd)
+set(WRAP_FILE CosAccPluginWrapper.cpp)
+set(MODULE_NAME openmmcosacc)
 
 # Execute SWIG to generate source code for the Python module.
 
@@ -9,16 +9,16 @@ add_custom_command(
         -python -c++
         -o "${WRAP_FILE}"
         "-I${OPENMM_DIR}/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/openmmdeepmd.i"
-    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/openmmdeepmd.i"
+        "${CMAKE_CURRENT_SOURCE_DIR}/openmmcosacc.i"
+    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/openmmcosacc.i"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 # Compile the Python module.
 
 add_custom_target(PythonInstall DEPENDS "${WRAP_FILE}")
-set(DEEPMD_PLUGIN_HEADER_DIR "${CMAKE_SOURCE_DIR}/openmmapi/include")
-set(DEEPMD_PLUGIN_LIBRARY_DIR "${CMAKE_BINARY_DIR}")
+set(COSACC_PLUGIN_HEADER_DIR "${CMAKE_SOURCE_DIR}/openmmapi/include")
+set(COSACC_PLUGIN_LIBRARY_DIR "${CMAKE_BINARY_DIR}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/setup.py ${CMAKE_CURRENT_BINARY_DIR}/setup.py)
 add_custom_command(TARGET PythonInstall
     COMMAND "${PYTHON_EXECUTABLE}" setup.py build
