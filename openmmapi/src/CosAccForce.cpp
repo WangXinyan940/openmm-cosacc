@@ -23,7 +23,7 @@ void CosAccForce::setParticleParameters(int index, double mass){
     massvec[index] = mass;
 }
 
-double CosAccForce::getAcc(){
+double CosAccForce::getAcc() const{
     return accelerate;
 }
 

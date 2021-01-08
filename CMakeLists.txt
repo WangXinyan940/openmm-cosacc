@@ -9,11 +9,6 @@ SET(OPENMM_DIR "/usr/local/openmm" CACHE PATH "Where OpenMM is installed")
 INCLUDE_DIRECTORIES("${OPENMM_DIR}/include")
 LINK_DIRECTORIES("${OPENMM_DIR}/lib" "${OPENMM_DIR}/lib/plugins")
 
-# We need to know where DeepMD is installed so we can access the headers and libraries.
-SET(COSACC_DIR "/usr/local" CACHE PATH "Where DeepMD is installed")
-INCLUDE_DIRECTORIES("${COSACC_DIR}/include")
-LINK_DIRECTORIES("${COSACC_DIR}/lib")
-
 # Specify the C++ version we are building for.
 SET (CMAKE_CXX_STANDARD 11)
 
