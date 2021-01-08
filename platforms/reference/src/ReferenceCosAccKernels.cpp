@@ -30,7 +30,9 @@ ReferenceCalcCosAccForceKernel::~ReferenceCalcCosAccForceKernel() {
 void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosAccForce& force) {
     int numParticles = system.getNumParticles();
     for(int i=0;i<numParticles;i++){
-        massvec.push_back(force.massvec[i]);
+        double masstmp;
+        force.getParticleParameters(i, &masstmp);
+        massvec.push_back(masstmp);
     }
     accelerate = force.accelerate;
 }

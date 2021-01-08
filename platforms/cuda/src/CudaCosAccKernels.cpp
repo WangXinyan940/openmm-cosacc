@@ -19,7 +19,9 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
 
     // create input tensor
     for(int i=0;i<numParticles;i++){
-        massvec.push_back(force.massvec[i]);
+        double masstmp;
+        force.getParticleParameters(i, &masstmp);
+        massvec.push_back(masstmp);
     }
 
     massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
