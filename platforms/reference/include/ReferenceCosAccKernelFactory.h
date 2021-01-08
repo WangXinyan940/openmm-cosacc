@@ -9,7 +9,7 @@ namespace OpenMM {
  * This KernelFactory creates kernels for the reference implementation of the CosAcc plugin.
  */
 
-class ReferenceDeepMDKernelFactory : public KernelFactory {
+class ReferenceCosAccKernelFactory : public KernelFactory {
 public:
     KernelImpl* createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const;
 };
