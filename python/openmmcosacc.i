@@ -42,7 +42,7 @@ namespace std {
 
 namespace CosAccPlugin {
 
-class CosAccPlugin : public OpenMM::Force {
+class CosAccForce : public OpenMM::Force {
 public:
     CosAccForce(double acc);
     void addParticle(double mass);
