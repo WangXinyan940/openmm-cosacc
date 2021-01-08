@@ -34,7 +34,7 @@ void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosA
         force.getParticleParameters(i, masstmp);
         massvec.push_back(masstmp);
     }
-    accelerate = force.accelerate;
+    accelerate = force.getAcc();
 }
 
 double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
