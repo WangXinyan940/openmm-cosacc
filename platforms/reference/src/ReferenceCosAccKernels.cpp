@@ -7,6 +7,7 @@
 
 using namespace OpenMM;
 using namespace std;
+using namespace CosAccPlugin;
 
 static vector<Vec3>& extractPositions(ContextImpl& context) {
     ReferencePlatform::PlatformData* data = reinterpret_cast<ReferencePlatform::PlatformData*>(context.getPlatformData());
