@@ -11,6 +11,7 @@ else:
     platformName = "Reference"
 
 neforce = openmmcosacc.CosAccForce(0.25 * u.nanometer / u.picosecond ** 2)
+neforce.setForceGroup(1)
 
 system = mm.System()
 for _ in range(8):
