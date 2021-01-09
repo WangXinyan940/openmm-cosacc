@@ -23,7 +23,6 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         vector<double> massvec;
         massvec.resize(numParticles);
         for(int i=0;i<numParticles;i++){
-            cout << system.getParticleMass(i) << endl;
             massvec[i] = system.getParticleMass(i);
         }
         massvec_cu.upload(massvec);
@@ -31,7 +30,6 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         vector<float> massvec;
         massvec.resize(numParticles);
         for(int i=0;i<numParticles;i++){
-            cout << system.getParticleMass(i) << endl;
             massvec[i] = system.getParticleMass(i);
         }
         massvec_cu.upload(massvec);
