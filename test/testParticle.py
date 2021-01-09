@@ -4,4 +4,4 @@ import numpy as np
 import simtk.unit as u
 import openmmcosacc
 
-neforce = openmmcosacc.CosAccForce(0.25)
+neforce = openmmcosacc.CosAccForce(0.25 * u.nanometer / u.picosecond ** 2)
