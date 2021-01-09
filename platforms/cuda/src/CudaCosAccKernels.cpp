@@ -37,8 +37,6 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         massvec_cu.upload(massvec);
     }
 
-
-
     accelerate = force.getAcc();
 
     // Inititalize CUDA objects.
@@ -53,7 +51,6 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
     defines["TWOPIOVERLZ"] = cu.doubleToString(6.283185307179586/boxVectors[2][2]);
     
-    cout << CudaCosAccKernelSources::cosAccForce << endl;
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");
     hasInitializedKernel = true;
