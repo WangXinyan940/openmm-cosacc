@@ -59,11 +59,11 @@ for step in range(100 * 1000):
 with open("posz.txt", "w") as f:
     for i in posz:
         for j in i:
-            f.write("%16.8f")
+            f.write("%16.8f"%j)
         f.write("\n")
 
 with open("velx.txt", "w") as f:
     for i in velx:
         for j in i:
-            f.write("%16.8f")
+            f.write("%16.8f"%j)
         f.write("\n")
