@@ -46,7 +46,7 @@ double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includ
     if (includeEnergy){
         energy += 1.0;
     }
-    if (includeForce){
+    if (includeForces){
         for(int i=0; i<numParticles; i++){
             double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz) I massvec[i];
             force[i][0] += addfrc;
