@@ -12,13 +12,13 @@ else:
     platformName = "Reference"
 
 system = mm.System()
-for _ in range(250):
+for _ in range(1000):
     system.addParticle(16.0)
 
 cell = np.array([
     [2.4, 0.0, 0.0],
     [0.0, 2.4, 0.0],
-    [0.0, 0.0, 2.4]
+    [0.0, 0.0, 9.6]
 ]) * u.nanometer
 system.setDefaultPeriodicBoxVectors(cell[:,0], cell[:,1], cell[:,2])
 
@@ -27,7 +27,7 @@ neforce.setForceGroup(0)
 system.addForce(neforce)
 
 nbforce = mm.NonbondedForce()
-for _ in range(250):
+for _ in range(1000):
     nbforce.addParticle(0.0, 0.31507524065751241, 0.635968)
 nbforce.setNonbondedMethod(nbforce.CutoffPeriodic)
 nbforce.setCutoffDistance(1.0 * u.nanometer)
@@ -49,8 +49,8 @@ ctx.setPositions(pos)
 ctx.setVelocities(vel)
 
 nsample = 100 * 1000
-posz = np.zeros((nsample,250))
-velx = np.zeros((nsample,250))
+posz = np.zeros((nsample,1000))
+velx = np.zeros((nsample,1000))
 for step in range(nsample):
     if step % 100 == 0:
         print("Step:", step)
@@ -77,10 +77,10 @@ with open("velx.txt", "w") as f:
 
 posz = posz.ravel()
 velx = velx.ravel()
-xbins = np.linspace(0.0, 2.4, 41)
+xbins = np.linspace(0.0, 9.6, 41)
 nbins = np.zeros((40,))
 totbins = np.zeros((40,))
-posz = posz % 2.4
+posz = posz % 9.6
 padd = posz // (xbins[1] - xbins[0])
 
 for ii in range(posz.shape[0]):
