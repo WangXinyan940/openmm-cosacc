@@ -1,5 +1,3 @@
-
-
 extern "C" __global__ 
 void addForces(const real*     __restrict__   massvec, 
                const real4*    __restrict__   posq, 
@@ -10,7 +8,7 @@ void addForces(const real*     __restrict__   massvec,
                int                            paddedNumAtoms) {
    for (int atom = blockIdx.x*blockDim.x+threadIdx.x; atom < numAtoms; atom += blockDim.x*gridDim.x) {
        int index = atomIndex[atom];
-       FORCES_TYPE addfrc = A * COS(posq[index].z*PI2ONELZ) * massvec[index];
+       FORCES_TYPE addfrc = A * COS(posq[index].z*TWOPIOVERLZ) * massvec[index];
        forceBuffers[atom] += (long long) (addfrc*0x100000000);
    }
 }

@@ -49,13 +49,10 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
 
     Vec3 boxVectors[3];
     system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
-    cout << "PI2ONELZ " << cu.doubleToString(6.283185307179586/boxVectors[2][2]) << endl;
-    defines["PI2ONELZ"] = cu.doubleToString(6.283185307179586/boxVectors[2][2]);
+    defines["TWOPIOVERLZ"] = cu.doubleToString(6.283185307179586/boxVectors[2][2]);
     
     cout << CudaCosAccKernelSources::cosAccForce << endl;
-    cout << "Create module" << endl;
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
-    cout << "Get kernel" << endl;
     addForcesKernel = cu.getKernel(module, "addForces");
     hasInitializedKernel = true;
 }
