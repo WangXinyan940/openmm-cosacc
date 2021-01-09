@@ -22,24 +22,6 @@ public:
      */
     CosAccForce(double acc);
     /**
-     * Add atom for CosAcc force field. Mass need to be set to calculate force.
-     * 
-     * @param mass       the mass of atom
-     */
-    void addParticle(double mass);
-    /**
-     * Get the mass for atom i.
-     * @param index      the index of atom
-     * @param[out] mass  mass of atom
-     */
-    void getParticleParameters(int index, double& mass) const;
-    /**
-     * Set mass for atom i.
-     * @param index      the index of atom
-     * @param mass       the mass of atom
-     */
-    void setParticleParameters(int index, double mass);
-    /**
      * Get the pre-factor for cos accelerate force.
      */
     double getAcc() const;
@@ -53,7 +35,6 @@ protected:
     OpenMM::ForceImpl* createImpl() const;
 private:
     double accelerate;
-    std::vector<double> massvec;
 };
 
 } // namespace CosAccPlugin

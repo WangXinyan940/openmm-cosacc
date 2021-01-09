@@ -18,10 +18,9 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     int elementSize = (cu.getUseDoublePrecision() ? sizeof(double) : sizeof(float));
 
     // create input tensor
+    massvec.resize(numParticles);
     for(int i=0;i<numParticles;i++){
-        double masstmp;
-        force.getParticleParameters(i, masstmp);
-        massvec.push_back(masstmp);
+        massvec[i] = system.getParticleMass(i);
     }
 
     massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
@@ -39,7 +38,7 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
 
     Vec3 boxVectors[3];
     system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
-    defines["2PIONELZ"] = cu.doubleToString(2.0*3.141592654/boxVectors[2][2]);
+    defines["2PIONELZ"] = cu.doubleToString(6.283185307179586/boxVectors[2][2]);
     
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");

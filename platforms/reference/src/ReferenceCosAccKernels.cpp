@@ -29,10 +29,9 @@ ReferenceCalcCosAccForceKernel::~ReferenceCalcCosAccForceKernel() {
 
 void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosAccForce& force) {
     int numParticles = system.getNumParticles();
+    massvec.resize(numParticles);
     for(int i=0;i<numParticles;i++){
-        double masstmp;
-        force.getParticleParameters(i, masstmp);
-        massvec.push_back(masstmp);
+        massvec[i] = system.getParticleMass(i);
     }
     accelerate = force.getAcc();
 }
@@ -43,9 +42,15 @@ double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includ
     Vec3* box = extractBoxVectors(context);
     double oneLz = box[2][2];
     int numParticles = pos.size();
-    for(int i=0; i<numParticles; i++){
-        double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz);
-        force[i][0] += addfrc;
+    double energy = 0.0;
+    if (includeEnergy){
+        energy += 1.0;
     }
-    return 1.0;
+    if (includeForce){
+        for(int i=0; i<numParticles; i++){
+            double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz) I massvec[i];
+            force[i][0] += addfrc;
+        }
+    }
+    return energy;
 }

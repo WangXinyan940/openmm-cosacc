@@ -11,18 +11,6 @@ using namespace std;
 CosAccForce::CosAccForce(double acc) : accelerate(acc) {
 }
 
-void CosAccForce::addParticle(double mass){
-    massvec.push_back(mass);
-}
-
-void CosAccForce::getParticleParameters(int index, double& mass) const {
-    mass = massvec[index];
-}
-
-void CosAccForce::setParticleParameters(int index, double mass){
-    massvec[index] = mass;
-}
-
 double CosAccForce::getAcc() const{
     return accelerate;
 }
