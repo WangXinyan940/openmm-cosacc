@@ -3,7 +3,7 @@ void addForces(const real*     __restrict__   massvec,
                const real4*    __restrict__   posq, 
                long long*      __restrict__   forceBuffers, 
                int*            __restrict__   atomIndex, 
-               FORCES_TYPE                    A, 
+               float                          A, 
                int                            numAtoms, 
                int                            paddedNumAtoms) {
    for (int atom = blockIdx.x*blockDim.x+threadIdx.x; atom < numAtoms; atom += blockDim.x*gridDim.x) {
