@@ -46,7 +46,7 @@ pos = state.getPositions(asNumpy=True).value_in_unit(u.nanometer)
 vel = state.getVelocities(asNumpy=True).value_in_unit(u.nanometer/u.picosecond)
 with open("pos.txt" , "w") as f:
     for x, y, z in pos:
-        f.write("%16.8f%16.8f%16.8f\n")
+        f.write("%16.8f%16.8f%16.8f\n"%(x, y, z))
 with open("vel.txt" , "w") as f:
     for x, y, z in vel:
-        f.write("%16.8f%16.8f%16.8f\n")
+        f.write("%16.8f%16.8f%16.8f\n"%(x, y, z))
