@@ -47,7 +47,8 @@ ctx.setVelocities(vel)
 posz = []
 velx = []
 for step in range(100 * 1000):
-    print("Step:", step)
+    if step % 100 == 0:
+        print("Step:", step)
     integ.step(2)
     state = ctx.getState(getPositions=True, getVelocities=True)
     pos = state.getPositions(asNumpy=True).value_in_unit(u.nanometer)
