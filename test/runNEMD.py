@@ -23,7 +23,7 @@ cell = np.array([
 system.setDefaultPeriodicBoxVectors(cell[:,0], cell[:,1], cell[:,2])
 
 neforce = openmmcosacc.CosAccForce(0.025 * u.nanometer / u.picosecond ** 2)
-neforce.setForceGroup(1)
+neforce.setForceGroup(0)
 system.addForce(neforce)
 
 nbforce = mm.NonbondedForce()
@@ -32,6 +32,7 @@ for _ in range(250):
 nbforce.setNonbondedMethod(nbforce.CutoffPeriodic)
 nbforce.setCutoffDistance(1.0 * u.nanometer)
 system.addForce(nbforce)
+print("PBC:", system.usesPeriodicBoundaryConditions())
 
 integ = VerletIntegrator(0.5 * u.femtosecond)
 #integ = mm.NoseHooverIntegrator(298.15 * u.kelvin, 1.0 * u.picosecond, 0.5 * u.femtosecond)
