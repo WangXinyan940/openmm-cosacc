@@ -48,7 +48,7 @@ double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includ
     }
     if (includeForces){
         for(int i=0; i<numParticles; i++){
-            double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz) I massvec[i];
+            double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz) * massvec[i];
             force[i][0] += addfrc;
         }
     }
