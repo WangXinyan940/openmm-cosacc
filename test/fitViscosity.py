@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 with open("posz.txt", "r") as f:
-    posz = np.array([[float(j) for j in i.strip().split()] for i in f])[100:].ravel()
+    posz = np.array([[float(j) for j in i.strip().split()] for i in f]).ravel()
     posz = posz % 2.4
 
 with open("velx.txt", "r") as f:
-    velx = np.array([[float(j) for j in i.strip().split()] for i in f])[100:].ravel()
+    velx = np.array([[float(j) for j in i.strip().split()] for i in f]).ravel()
 
 xbins = np.linspace(0.0, 2.4, 41)
 nbins = np.zeros((40,))
