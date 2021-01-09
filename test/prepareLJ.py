@@ -11,31 +11,27 @@ else:
     platformName = "Reference"
 
 system = mm.System()
-for _ in range(250):
+for _ in range(1000):
     system.addParticle(16.0)
 
 cell = np.array([
     [2.4, 0.0, 0.0],
     [0.0, 2.4, 0.0],
-    [0.0, 0.0, 2.4]
+    [0.0, 0.0, 9.6]
 ]) * u.nanometer
 system.setDefaultPeriodicBoxVectors(cell[:,0], cell[:,1], cell[:,2])
 
-neforce = openmmcosacc.CosAccForce(0.25 * u.nanometer / u.picosecond ** 2)
-neforce.setForceGroup(1)
-#system.addForce(neforce)
-
 nbforce = mm.NonbondedForce()
-for _ in range(250):
+for _ in range(1000):
     nbforce.addParticle(0.0, 0.31507524065751241, 0.635968)
 nbforce.setNonbondedMethod(nbforce.CutoffPeriodic)
 nbforce.setCutoffDistance(1.0 * u.nanometer)
 system.addForce(nbforce)
 
-integ = mm.NoseHooverIntegrator(298.15 * u.kelvin, 1.0 * u.picosecond, 0.5 * u.femtosecond)
+integ = mm.LangevinIntegrator(298.15 * u.kelvin, 1.0 / u.picosecond, 0.5 * u.femtosecond)
 platform = mm.Platform.getPlatformByName(platformName)
 ctx = mm.Context(system, integ, platform)
-pos = np.random.random((250,3)) * 2.35 + 0.025
+pos = np.random.random((1000,3)) * np.array([[2.4, 2.4, 9.6]])
 ctx.setPositions(pos)
 mm.LocalEnergyMinimizer.minimize(ctx)
 for loop in range(1000):
