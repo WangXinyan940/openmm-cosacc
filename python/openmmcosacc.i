@@ -45,9 +45,6 @@ namespace CosAccPlugin {
 class CosAccForce : public OpenMM::Force {
 public:
     CosAccForce(double acc);
-    void addParticle(double mass);
-    void getParticleParameters(int index, double& mass) const;
-    void setParticleParameters(int index, double mass);
     double getAcc() const;
     void setAcc(double acc);
 
