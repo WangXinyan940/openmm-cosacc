@@ -37,7 +37,6 @@ public:
 private:
     bool hasInitializedKernel;
     double accelerate;
-    std::vector<double> massvec;
     OpenMM::CudaArray massvec_cu;
     OpenMM::CudaContext& cu;
     CUfunction addForcesKernel;

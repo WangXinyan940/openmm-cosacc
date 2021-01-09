@@ -18,13 +18,22 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     int elementSize = (cu.getUseDoublePrecision() ? sizeof(double) : sizeof(float));
 
     // create input tensor
-    massvec.resize(numParticles);
-    for(int i=0;i<numParticles;i++){
-        massvec[i] = system.getParticleMass(i);
+    if (cu.getUseDoublePrecision()){
+        vector<double> massvec;
+        massvec.resize(numParticles);
+        for(int i=0;i<numParticles;i++){
+            massvec[i] = system.getParticleMass(i);
+        }
+    } else {
+        vector<float> massvec;
+        massvec.resize(numParticles);
+        for(int i=0;i<numParticles;i++){
+            massvec[i] = system.getParticleMass(i);
+        }
     }
-
     massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
     massvec_cu.upload(massvec);
+
 
     accelerate = force.getAcc();
 
