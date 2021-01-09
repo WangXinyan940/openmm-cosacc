@@ -15,16 +15,16 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     cu.setAsCurrent();
 
     int numParticles = system.getNumParticles();
-    int elementSize = (cu.getUseDoublePrecision() ? sizeof(double) : sizeof(float));
+    int elementSize = cu.getUseDoublePrecision() ? sizeof(double) : sizeof(float);
 
     // create input tensor
+    massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
     if (cu.getUseDoublePrecision()){
         vector<double> massvec;
         massvec.resize(numParticles);
         for(int i=0;i<numParticles;i++){
             massvec[i] = system.getParticleMass(i);
         }
-        massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
         massvec_cu.upload(massvec);
     } else {
         vector<float> massvec;
@@ -32,7 +32,6 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         for(int i=0;i<numParticles;i++){
             massvec[i] = system.getParticleMass(i);
         }
-        massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
         massvec_cu.upload(massvec);
     }
 
