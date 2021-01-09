@@ -12,6 +12,8 @@ nbins = np.zeros((40,))
 totbins = np.zeros((40,))
 
 for ii in range(posz.shape[0]):
+    if ii%1000 ==0:
+        print(ii, "/", posz.shape[0])
     tempz = posz[ii]
     while tempz < 0.0 or tempz > 2.4:
         if tempz < 0.0:
