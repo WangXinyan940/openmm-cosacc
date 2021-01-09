@@ -3,6 +3,7 @@ import simtk.openmm.app as app
 import numpy as np
 import simtk.unit as u
 import openmmcosacc
+import sys
 
 if len(sys.argv) > 1:
     platformName = sys.argv[1]
