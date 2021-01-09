@@ -21,7 +21,7 @@ cell = np.array([
 ]) * u.nanometer
 system.setDefaultPeriodicBoxVectors(cell[:,0], cell[:,1], cell[:,2])
 
-neforce = openmmcosacc.CosAccForce(0.25 * u.nanometer / u.picosecond ** 2)
+neforce = openmmcosacc.CosAccForce(5.0 * u.nanometer / u.picosecond ** 2)
 neforce.setForceGroup(1)
 system.addForce(neforce)
 
@@ -46,10 +46,10 @@ ctx.setPositions(pos)
 ctx.setVelocities(vel)
 posz = []
 velx = []
-for step in range(100 * 1000):
+for step in range(400 * 1000):
     if step % 100 == 0:
         print("Step:", step)
-    integ.step(2)
+    integ.step(20)
     state = ctx.getState(getPositions=True, getVelocities=True)
     pos = state.getPositions(asNumpy=True).value_in_unit(u.nanometer)
     vel = state.getVelocities(asNumpy=True).value_in_unit(u.nanometer/u.picosecond)
