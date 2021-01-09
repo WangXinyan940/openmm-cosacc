@@ -40,7 +40,7 @@ double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includ
     vector<Vec3>& pos = extractPositions(context);
     vector<Vec3>& force = extractForces(context);
     Vec3* box = extractBoxVectors(context);
-    double oneLz = box[2][2];
+    double oneLz = 1.0/box[2][2];
     int numParticles = pos.size();
     double energy = 0.0;
     if (includeEnergy){
