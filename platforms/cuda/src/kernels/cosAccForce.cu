@@ -9,7 +9,6 @@ void addForces(const real*     __restrict__   massvec,
    for (int atom = blockIdx.x*blockDim.x+threadIdx.x; atom < numAtoms; atom += blockDim.x*gridDim.x) {
        int index = atomIndex[atom];
        FORCES_TYPE addfrc = A * COS(posq[index].z*TWOPIOVERLZ) * massvec[index];
-       printf("A: %f  posq: %f  mass: %f\n", A, posq[index].z, massvec[index]);
        forceBuffers[atom] += (long long) (addfrc*0x100000000);
    }
 }
