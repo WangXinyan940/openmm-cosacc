@@ -24,15 +24,18 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         for(int i=0;i<numParticles;i++){
             massvec[i] = system.getParticleMass(i);
         }
+        massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
+        massvec_cu.upload(massvec);
     } else {
         vector<float> massvec;
         massvec.resize(numParticles);
         for(int i=0;i<numParticles;i++){
             massvec[i] = system.getParticleMass(i);
         }
+        massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
+        massvec_cu.upload(massvec);
     }
-    massvec_cu.initialize(cu, numParticles, elementSize, "massvec_cu");
-    massvec_cu.upload(massvec);
+
 
 
     accelerate = force.getAcc();
