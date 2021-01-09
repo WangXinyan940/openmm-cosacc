@@ -32,7 +32,7 @@ nbforce.setNonbondedMethod(nbforce.CutoffPeriodic)
 nbforce.setCutoffDistance(1.0 * u.nanometer)
 system.addForce(nbforce)
 
-integ = mm.NoseHooverIntegrator(1.0 * u.picosecond, 0.5 * u.femtosecond)
+integ = mm.NoseHooverIntegrator(298.15 * u.kelvin, 1.0 * u.picosecond, 0.5 * u.femtosecond)
 platform = mm.Platform.getPlatformByName(platformName)
 ctx = mm.Context(system, integ, platform)
 pos = np.random.random((250,3)) * 2.35 + 0.025
