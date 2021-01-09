@@ -56,6 +56,7 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     cout << "Get kernel" << endl;
     addForcesKernel = cu.getKernel(module, "addForces");
+    hasInitializedKernel = true;
 }
 
 double CudaCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
