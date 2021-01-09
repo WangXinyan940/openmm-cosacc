@@ -26,6 +26,7 @@ system.addForce(neforce)
 integ = mm.VerletIntegrator(0.5 * u.femtosecond)
 platform = mm.Platform.getPlatformByName("Reference")
 ctx = mm.Context(system, integ, platform)
+ctx.setPositions(pos)
 
 for i in range(100):
     integ.step(2)
