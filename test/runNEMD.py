@@ -34,8 +34,8 @@ nbforce.setCutoffDistance(1.0 * u.nanometer)
 system.addForce(nbforce)
 print("PBC:", system.usesPeriodicBoundaryConditions())
 
-integ = mm.VerletIntegrator(0.5 * u.femtosecond)
-#integ = mm.NoseHooverIntegrator(298.15 * u.kelvin, 1.0 * u.picosecond, 0.5 * u.femtosecond)
+#integ = mm.VerletIntegrator(0.5 * u.femtosecond)
+integ = mm.NoseHooverIntegrator(298.15 * u.kelvin, 1.0 * u.picosecond, 0.5 * u.femtosecond)
 platform = mm.Platform.getPlatformByName(platformName)
 ctx = mm.Context(system, integ, platform)
 
