@@ -29,11 +29,8 @@ public:
      * Execute the kernel to calculate the forces and/or energy.
      *
      * @param context        the context in which to execute this kernel
-     * @param includeForces  true if forces should be calculated
-     * @param includeEnergy  true if the energy should be calculated
-     * @return the potential energy due to the force
      */
-    double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
+    void execute(OpenMM::ContextImpl& context);
 private:
     bool hasInitializedKernel;
     double acceleration;
