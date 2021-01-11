@@ -35,7 +35,7 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
     //    massvec_cu.upload(massvec);
     //}
 
-    acceleration = force.getAcc();
+    acceleration = force.getAcc() * force.getTimestep();
 
     // Inititalize CUDA objects.
     map<string, string> defines;

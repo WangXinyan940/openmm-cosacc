@@ -8,15 +8,23 @@ using namespace CosAccPlugin;
 using namespace OpenMM;
 using namespace std;
 
-CosAccForce::CosAccForce(double acc) : accelerate(acc) {
+CosAccForce::CosAccForce(double acc, double dt) : acceleration(acc), timestep(dt) {
 }
 
 double CosAccForce::getAcc() const{
-    return accelerate;
+    return acceleration;
 }
 
 void CosAccForce::setAcc(double acc){
-    accelerate = acc;
+    acceleration = acc;
+}
+
+double CosAccForce::getTimestep() const{
+    return timestep;
+}
+
+void CosAccForce::setTimestep(double dt){
+    timestep = dt;
 }
 
 ForceImpl* CosAccForce::createImpl() const {
