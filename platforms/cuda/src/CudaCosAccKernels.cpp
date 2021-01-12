@@ -39,16 +39,11 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
 
     // Inititalize CUDA objects.
     map<string, string> defines;
-    if (cu.getUseDoublePrecision()){
-        defines["FORCES_TYPE"] = "double";
-    } else {
-        defines["FORCES_TYPE"] = "float";
-    }
 
     Vec3 boxVectors[3];
     system.getDefaultPeriodicBoxVectors(boxVectors[0], boxVectors[1], boxVectors[2]);
     defines["TWOPIOVERLZ"] = cu.doubleToString(6.283185307179586/boxVectors[2][2]);
-    
+    cout << "TWOPIOVERLZ: " << defines["TWOPIOVERLZ"] << endl;
     CUmodule module = cu.createModule(CudaCosAccKernelSources::cosAccForce, defines);
     addForcesKernel = cu.getKernel(module, "addForces");
     hasInitializedKernel = true;

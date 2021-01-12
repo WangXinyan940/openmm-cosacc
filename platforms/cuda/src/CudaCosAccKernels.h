@@ -36,7 +36,7 @@ public:
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
     bool hasInitializedKernel;
-    float accelerate;
+    double accelerate;
     OpenMM::CudaArray massvec_cu;
     OpenMM::CudaContext& cu;
     CUfunction addForcesKernel;
