@@ -36,9 +36,10 @@ public:
     double execute(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy);
 private:
     bool hasInitializedKernel;
-    double acceleration;
+    float accelerate;
+    OpenMM::CudaArray massvec_cu;
     OpenMM::CudaContext& cu;
-    CUfunction addVelsKernel;
+    CUfunction addForcesKernel;
 };
 
 } // namespace CosAccPlugin

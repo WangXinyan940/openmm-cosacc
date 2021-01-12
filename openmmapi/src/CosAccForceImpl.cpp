@@ -20,11 +20,9 @@ void CosAccForceImpl::initialize(ContextImpl& context) {
     kernel.getAs<CalcCosAccForceKernel>().initialize(context.getSystem(), owner);
 }
 
-void CosAccForceImpl::updateContextState(OpenMM::ContextImpl& context, bool& forcesInvalid) {
-    kernel.getAs<CalcCosAccForceKernel>().execute(context);
-}        
-
 double CosAccForceImpl::calcForcesAndEnergy(ContextImpl& context, bool includeForces, bool includeEnergy, int groups) {
+    if ((groups&(1<<owner.getForceGroup())) != 0)
+        return kernel.getAs<CalcCosAccForceKernel>().execute(context, includeForces, includeEnergy);
     return 0.0;
 }
 

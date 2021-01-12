@@ -55,7 +55,9 @@ public:
     const CosAccForce& getOwner() const {
         return owner;
     }
-    void updateContextState(OpenMM::ContextImpl& context, bool& forcesInvalid);
+    void updateContextState(OpenMM::ContextImpl& context, bool& forcesInvalid) {
+        // This force field doesn't update the state directly.
+    }
     double calcForcesAndEnergy(OpenMM::ContextImpl& context, bool includeForces, bool includeEnergy, int groups);
     std::map<std::string, double> getDefaultParameters() {
         return std::map<std::string, double>(); // This force field doesn't define any parameters.

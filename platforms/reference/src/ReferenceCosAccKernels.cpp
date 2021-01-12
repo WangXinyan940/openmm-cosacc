@@ -14,11 +14,6 @@ static vector<Vec3>& extractPositions(ContextImpl& context) {
     return *((vector<Vec3>*) data->positions);
 }
 
-static vector<Vec3>& extractVelocities(ContextImpl& context) {
-    ReferencePlatform::PlatformData* data = reinterpret_cast<ReferencePlatform::PlatformData*>(context.getPlatformData());
-    return *data->velocities;
-}
-
 static vector<Vec3>& extractForces(ContextImpl& context) {
     ReferencePlatform::PlatformData* data = reinterpret_cast<ReferencePlatform::PlatformData*>(context.getPlatformData());
     return *((vector<Vec3>*) data->forces);
@@ -38,19 +33,24 @@ void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosA
     for(int i=0;i<numParticles;i++){
         massvec[i] = system.getParticleMass(i);
     }
-    acceleration = force.getAcc();
+    accelerate = force.getAcc();
 }
 
-void ReferenceCalcCosAccForceKernel::execute(ContextImpl& context) {
+double ReferenceCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
     vector<Vec3>& pos = extractPositions(context);
-    vector<Vec3>& vels = extractVelocities(context);
+    vector<Vec3>& force = extractForces(context);
     Vec3* box = extractBoxVectors(context);
     double oneLz = 1.0/box[2][2];
     int numParticles = pos.size();
-    for(int i=0; i<numParticles; i++){
-        if (massvec[i] > 1e-4) {
-            double addvel = acceleration * cos(6.283185307179586*pos[i][2]*oneLz);
-            vels[i][0] += addvel;
+    double energy = 0.0;
+    if (includeEnergy){
+        energy += 1.0;
+    }
+    if (includeForces){
+        for(int i=0; i<numParticles; i++){
+            double addfrc = accelerate * cos(6.283185307179586*pos[i][2]*oneLz) * massvec[i];
+            force[i][0] += addfrc;
         }
     }
+    return energy;
 }
