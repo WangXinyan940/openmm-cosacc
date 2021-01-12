@@ -57,11 +57,9 @@ namespace CosAccPlugin {
 
 class CosAccForce : public OpenMM::Force {
 public:
-    CosAccForce(double acc, double dt);
+    CosAccForce(double acc);
     double getAcc() const;
     void setAcc(double acc);
-    double getTimestep() const;
-    void setTimestep(double dt);
 
     /*
      * Add methods for casting a Force to a DeepMDForce.
