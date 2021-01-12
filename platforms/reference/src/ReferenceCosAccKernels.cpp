@@ -38,7 +38,7 @@ void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosA
     for(int i=0;i<numParticles;i++){
         massvec[i] = system.getParticleMass(i);
     }
-    acceleration = force.getAcc() * force.getTimestep();
+    acceleration = force.getAcc();
 }
 
 void ReferenceCalcCosAccForceKernel::execute(ContextImpl& context) {

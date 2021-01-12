@@ -19,34 +19,22 @@ public:
      * to a binary protocol buffer file.
      *
      * @param acc        the pre-factor of acceleration
-     * @param dt         timestep for integration
      */
-    CosAccForce(double acc, double dt);
+    CosAccForce(double acc);
     /**
-     * Get the pre-factor for cos acceleration force.
+     * Get the pre-factor for cos accelerate force.
      */
     double getAcc() const;
     /**
-     *  Set the pre-factor for cos acceleration force.
+     *  Set the pre-factor for cos accelerate force.
      * 
      * @param acc        the pre-factor
      */
     void setAcc(double acc);
-    /**
-     * Get the timestep for cos acceleration force.
-     */
-    double getTimestep() const;
-    /**
-     *  Set the timestep for cos acceleration force.
-     * 
-     * @param dt  the timestep
-     */
-    void setTimestep(double dt);
 protected:
     OpenMM::ForceImpl* createImpl() const;
 private:
-    double acceleration;
-    double timestep;
+    double accelerate;
 };
 
 } // namespace CosAccPlugin

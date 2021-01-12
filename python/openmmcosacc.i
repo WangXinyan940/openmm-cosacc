@@ -38,11 +38,7 @@ import simtk.unit as unit
             acc = args[0].value_in_unit(unit.nanometer / unit.picosecond ** 2)
         else:
             acc = args[0]
-        if unit.is_quantity(args[1]):
-            dt = args[1].value_in_unit(unit.picosecond)
-        else:
-            dt = args[1]
-        this = _openmmcosacc.new_CosAccForce(acc, dt)
+        this = _openmmcosacc.new_CosAccForce(acc)
         try:
             self.this.append(this)
         except Exception:
