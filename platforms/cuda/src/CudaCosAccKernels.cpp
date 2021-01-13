@@ -59,7 +59,7 @@ double CudaCalcCosAccForceKernel::execute(ContextImpl& context, bool includeForc
     }
     if (includeForces) {
         int paddedNumAtoms = cu.getPaddedNumAtoms();
-        void* args[] = {&massvec_cu.getDevicePointer(), &cu.getPosq().getDevicePointer(), &cu.getForce().getDevicePointer(), &cu.getAtomIndexArray().getDevicePointer(), &accelerate, &numParticles, &paddedNumAtoms};
+        void* args[] = {&massvec_cu.getDevicePointer(), &cu.getPosq().getDevicePointer(), &cu.getForce().getDevicePointer(), &accelerate, &numParticles, &paddedNumAtoms};
         cu.executeKernel(addForcesKernel, args, numParticles);
     }
     return energy;
