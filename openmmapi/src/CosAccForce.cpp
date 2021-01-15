@@ -19,6 +19,14 @@ void CosAccForce::setAcc(double acc){
     accelerate = acc;
 }
 
+double CosAccForce::getLimit() const{
+    return lowerlimit;
+}
+
+void CosAccForce::setLimit(double limit){
+    lowerlimit = limit;
+}
+
 ForceImpl* CosAccForce::createImpl() const {
     return new CosAccForceImpl(*this);
 }

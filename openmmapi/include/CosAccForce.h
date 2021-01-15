@@ -31,10 +31,23 @@ public:
      * @param acc        the pre-factor
      */
     void setAcc(double acc);
+    /**
+     * Get the lower limit of particle mass. Particles lighter than the limit 
+     * will be excluded.
+     */
+    double getLimit() const;
+    /**
+     *  Set the lower limit of particle mass.
+     * 
+     * @param limit      the pre-factor
+     */
+    void setLimit(double limit);
+protected:
 protected:
     OpenMM::ForceImpl* createImpl() const;
 private:
     double accelerate;
+    double lowerlimit;
 };
 
 } // namespace CosAccPlugin

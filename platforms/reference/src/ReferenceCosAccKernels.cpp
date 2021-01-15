@@ -31,7 +31,8 @@ void ReferenceCalcCosAccForceKernel::initialize(const System& system, const CosA
     int numParticles = system.getNumParticles();
     massvec.resize(numParticles);
     for(int i=0;i<numParticles;i++){
-        massvec[i] = system.getParticleMass(i);
+        double masstmp = system.getParticleMass(i);
+        massvec[i] = masstmp > force.getLimit() ? masstmp: 0.0;
     }
     accelerate = force.getAcc();
 }
