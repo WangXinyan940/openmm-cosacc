@@ -56,6 +56,8 @@ public:
     CosAccForce(double acc);
     double getAcc() const;
     void setAcc(double acc);
+    double getLimit() const;
+    void setLimit(double limit);
 
     /*
      * Add methods for casting a Force to a DeepMDForce.
