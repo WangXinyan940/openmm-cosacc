@@ -19,6 +19,14 @@ void CosAccForce::setAcc(double acc){
     accelerate = acc;
 }
 
+double CosAccForce::getParticleMass(int index) const{
+    return massvec[index];
+}
+
+void CosAccForce::setParticleMass(double mass){
+    massvec.push_back(mass);
+}
+
 double CosAccForce::getLimit() const{
     return lowerlimit;
 }

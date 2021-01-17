@@ -32,6 +32,16 @@ public:
      */
     void setAcc(double acc);
     /**
+     * Get the pre-factor for cos accelerate force.
+     */
+    double getParticleMass(int index) const;
+    /**
+     *  Set the pre-factor for cos accelerate force.
+     * 
+     * @param mass        the pre-factor
+     */
+    void setParticleMass(double mass);
+    /**
      * Get the lower limit of particle mass. Particles lighter than the limit 
      * will be excluded.
      */
@@ -48,6 +58,7 @@ protected:
 private:
     double accelerate;
     double lowerlimit;
+    std::vector<double> massvec;
 };
 
 } // namespace CosAccPlugin

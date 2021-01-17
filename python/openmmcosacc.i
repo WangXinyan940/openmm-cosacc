@@ -58,6 +58,8 @@ public:
     void setAcc(double acc);
     double getLimit() const;
     void setLimit(double limit);
+    double getParticleMass(int index) const;
+    void setParticleMass(double mass);
 
     /*
      * Add methods for casting a Force to a DeepMDForce.

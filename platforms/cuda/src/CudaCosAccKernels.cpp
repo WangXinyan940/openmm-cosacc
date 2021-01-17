@@ -23,7 +23,7 @@ void CudaCalcCosAccForceKernel::initialize(const System& system, const CosAccFor
         vector<double> massvec;
         massvec.resize(numParticles);
         for(int i=0;i<numParticles;i++){
-            double masstmp = system.getParticleMass(i);
+            double masstmp = force.getParticleMass(i);
             massvec[i] = masstmp > force.getLimit() ? masstmp: 0.0;
         }
         massvec_cu.upload(massvec);
